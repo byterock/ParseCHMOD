@@ -48,11 +48,10 @@ sub parse_bits {
     
     my @chmod_bits = split("",$chmod);
     
-    printf "Group members can %s the file!\n",$prem_e->{$bits->{$chmod_bits[0]}};
+    printf "Owner can %s the file!\n",$prem_e->{$bits->{$chmod_bits[0]}};
     printf "Group members can %s the file!\n",$prem_e->{$bits->{$chmod_bits[1]}};
     printf "Others can %s the file!\n",$prem_e->{$bits->{$chmod_bits[2]}};
-    printf "and on the file system it look like: %s%s%s \n",$prem_fs->{$bits->{$chmod_bits[0]}},$prem_fs->{$bits->{$chmod_bits[1]}},$prem_fs->{$bits->{$chmod_bits[2]}};
- 
+    printf "and on the file system it looks like: %s%s%s \n\n",$prem_fs->{$bits->{$chmod_bits[0]}},$prem_fs->{$bits->{$chmod_bits[1]}},$prem_fs->{$bits->{$chmod_bits[2]}};
    
     
 }
