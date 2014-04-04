@@ -17,7 +17,15 @@ our $prem_e = {rwx=>'Read, Write & Execute',
 				w =>'Only Write',
 				x =>'Only Execute',
 				'-'=>'do nothing to'};
-			
+
+our $prem_fs = {rwx=>'rwx',
+				rw=>'rw-',
+				rx=>'r-x',
+				r =>'r--',
+				wx=>'-wx',
+				w =>'-w-',
+				x =>'--x',
+				'-'=>'---'};					
 our $bits = {7=>'rwx',
 			6=>'rw',
 			5=>'rx',
@@ -43,7 +51,8 @@ sub parse_bits {
     printf "Group members can %s the file!\n",$prem_e->{$bits->{$chmod_bits[0]}};
     printf "Group members can %s the file!\n",$prem_e->{$bits->{$chmod_bits[1]}};
     printf "Others can %s the file!\n",$prem_e->{$bits->{$chmod_bits[2]}};
-    printf "and on the FS %s%s%s.\n,
+    printf "and on the file system it look like: %s%s%s \n",$prem_fs->{$bits->{$chmod_bits[0]}},$prem_fs->{$bits->{$chmod_bits[1]}},$prem_fs->{$bits->{$chmod_bits[2]}};
+ 
    
     
 }
