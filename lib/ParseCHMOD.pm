@@ -1,3 +1,5 @@
+
+
 package ParseCHMOD;
 
 use 5.006;
@@ -9,6 +11,11 @@ our @EXPORT_OK = qw(parse_bits parse_file_listing);
 
 our $VERSION = '0.01';
 
+our $file_type = {'d'=>'Directory',
+				  '-'=>'File',
+				  'l'=>'Symbolic Link'
+				  };
+				  
 our $prem_e = {rwx=>'Read, Write & Execute',
 				rw=>'Read & Write',
 				rx=>'Read & Execute',
@@ -17,7 +24,6 @@ our $prem_e = {rwx=>'Read, Write & Execute',
 				w =>'Only Write',
 				x =>'Only Execute',
 				'-'=>'do nothing to'};
-
 our $prem_fs = {rwx=>'rwx',
 				rw=>'rw-',
 				rx=>'r-x',
@@ -25,7 +31,16 @@ our $prem_fs = {rwx=>'rwx',
 				wx=>'-wx',
 				w =>'-w-',
 				x =>'--x',
-				'-'=>'---'};					
+				'-'=>'---'};		
+				
+our $fs_perm = {'rwx'=>'rwx',
+				'rw-'=>'rw',
+				'r-x'=>'rx',
+				'r--' =>'r',
+				'-wx'=>'wx',
+				'-w-' =>'w',
+				'--x' =>'x',
+				'---'=>'-'};		
 our $bits = {7=>'rwx',
 			6=>'rw',
 			5=>'rx',
@@ -34,6 +49,15 @@ our $bits = {7=>'rwx',
 			2=>'w',
 			1=>'x',
 			0=>'-',
+			};
+our $fs_bits = {'rwx'=>7,
+			'rw'=>6,
+			'rx'=>5,
+			'r'=>4,
+			'wx'=>3,
+			'w'=>2,
+			'x'=>1,
+			'-'=>0,
 			};
 sub new {
     my $class = shift;
@@ -45,7 +69,7 @@ sub new {
 sub parse_bits {
     my $self = shift;
 	my ($chmod ) = @_;
-    
+
     my @chmod_bits = split("",$chmod);
     
     printf "Owner can %s the file!\n",$prem_e->{$bits->{$chmod_bits[0]}};
