@@ -5,7 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use Exporter qw(import);
-our @EXPORT_OK = qw(parse_bits parse_permissions);
+our @EXPORT_OK = qw(parse_bits parse_file_listing);
 
 our $VERSION = '0.01';
 
@@ -55,3 +55,25 @@ sub parse_bits {
    
     
 }
+
+sub parse_file_listing {
+    my $self = shift;
+	my ($perms ) = @_;
+ 
+	my $type=$file_type->{substr($perms ,0,1)};
+	printf "The listing '%s' is a \n",$perms;
+	my $fname =  substr($perms,49,length($perms)-49);
+    printf "%s called %s\n",$type,$fname;
+    printf "is hidden\n"
+		if (substr($fname,0,1) eq '.' and $type eq 'File');
+    printf "is owned by %s\n",substr($perms ,14,8);
+    printf "is in group %s\n",substr($perms ,22,5);
+    printf "takes up %s bytes \n",substr($perms ,27,8);
+    printf "last updated on %s \n",substr($perms ,35,13);
+    printf "Owner can %s the %s!\n",$prem_e->{$fs_perm->{substr($perms ,1,3)}},$type;
+   
+    printf "Group members can %s the %s!\n",$prem_e->{$fs_perm->{substr($perms ,4,3)}},$type;
+    
+    printf "Others can %s the %s!\n",$prem_e->{$fs_perm->{substr($perms ,7,3)}},$type;
+    printf "the chmod of this in bits would look like this: chmod %s%s%s %s\n\n",$fs_bits->{$fs_perm->{substr($perms ,1,3)}},$fs_bits->{$fs_perm->{substr($perms ,4,3)}},$fs_bits->{$fs_perm->{substr($perms ,7,3)}},$fname;
+  }
